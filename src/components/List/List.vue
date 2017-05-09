@@ -1,13 +1,14 @@
 <template>
   <div id="app">
+    <h2>Thing to do</h2>
     <div>
-      <button type="button" @click="fetchTasks">fetch</button>
-      <button type="button" @click="markAllAsDone">all</button>
+      <button type="button" @click="fetchTasks">Fetch tasks</button>
+      <button type="button" @click="markAllAsDone">Mark all as done</button>
       <input placeholder="Task name" @keyup.prevent.enter="addTask">
        {{ doneTasksNumber }} / {{ tasks.length }}
     </div>
     <ul>
-      <li v-for="task in tasks"><task-container
+      <li v-for="task in tasks" :key="task.name"><task-container
         :task="task"
         @remove="remove"></task-container> </li>
     </ul>
@@ -34,7 +35,7 @@ export default {
   },
   methods: {
     addTask(event) {
-        if(event.target.value.trim() === '' || this.findTaskByName(this.newTaskName)){
+        if(event.target.value.trim() === '' || this.findTaskByName(event.target.value)){
             return;
         }
 
@@ -85,13 +86,32 @@ export default {
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+  #app {
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+
+    ul {
+      padding: 0;
+      list-style: none;
+    }
+
+    li > div > div {
+      display: inline-block;
+    }
+  }
+  .list-leave-active {
+    position: absolute;
+  }
+  .list-enter-active, .list-leave-active {
+    transition: all 1s;
+  }
+  .list-enter, .list-leave-to {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .list-move {
+    transition: transform 1s;
+  }
 </style>

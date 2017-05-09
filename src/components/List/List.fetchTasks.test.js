@@ -7,20 +7,9 @@ Vue.use(VueResource);
 describe('List', function() {
 
   let vm;
-  let xhr;
-  let requests;
 
   beforeEach(function() {
     vm = new Vue(List).$mount();
-    requests = [];
-    this.xhr = sinon.useFakeXMLHttpRequest();
-    this.xhr.onCreate = function(request) {
-      requests.push(request);
-    };
-  });
-
-  afterEach(function() {
-    this.xhr.restore();
   });
 
   describe('fetchTasks', function() {

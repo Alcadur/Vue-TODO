@@ -1,11 +1,11 @@
 <template>
   <div class="task">
-    <div>{{ task.isDone }}</div>
-    <div v-if="!isEditMode" @dblclick.prevent="editModeOn">{{ task.name }}</div>
-    <div v-if="isEditMode"><input v-model="editName" @keyup.esc="editModeOff" @keyup.enter.prevent="editModeSave"></div>
-    <div>
-      <button type="button" @click="markAsDone">done</button>
-      <button type="button" @click="remove">remove</button>
+    <div class="status" :class="{done: task.isDone}"></div>
+    <div v-if="!isEditMode" class="description" @dblclick.prevent="editModeOn">{{ task.name }}</div>
+    <div v-if="isEditMode" class="description"><input v-model="editName" @keyup.esc="editModeOff" @keyup.enter.prevent="editModeSave"></div>
+    <div class="buttons">
+      <button type="button" @click="markAsDone">Done</button>
+      <button type="button" @click="remove">Remove</button>
     </div>
   </div>
 </template>
@@ -43,7 +43,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="scss">
 h1, h2 {
   font-weight: normal;
 }
@@ -56,6 +56,39 @@ ul {
 li {
   display: inline-block;
   margin: 0 10px;
+}
+
+.status {
+  position: relative;
+  top: 7px;
+  margin-right: 10px;
+
+  &:before {
+    content: '';
+    display: block;
+    width: 25px;
+    height: 25px;
+    background: #a6090d;
+    transition: background 250ms ease-in-out;
+  }
+
+  &.done:before {
+    background: #007600;
+  }
+}
+
+.description {
+  box-sizing: border-box;
+  width: calc(100% - 200px);
+  line-height: 25px ;
+}
+
+.buttons {
+  width: 150px;
+
+  .task & button {
+    width: auto;
+  }
 }
 
 a {
